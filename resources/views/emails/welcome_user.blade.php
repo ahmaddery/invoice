@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Welcome to Our Application</title>
+    <title>Selamat Datang di Aplikasi Kami</title>
     <style type="text/css">
         body {
             font-family: 'Arial', sans-serif;
@@ -49,20 +49,26 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Welcome to Our Application</h1>
+            <h1>Selamat Datang di Aplikasi Kami</h1>
         </div>
         <div class="content">
-            <h2>Hello, {{ $user->name }}!</h2>
-            <p>Thank you for registering with us. You are now part of our community.</p>
-            <a href="{{ route('dashboard') }}" class="btn">Go to Dashboard</a>
+            <h2>Hallo, {{ $user->name }}!</h2>
+            <p>Email Anda, {{ $user->email }}, telah ditambahkan sebagai pengguna oleh admin.</p>
+            <p>Untuk melengkapi pendaftaran Anda, silakan buat password baru dengan mengklik tombol di bawah ini:</p>
+            @if (Route::has('password.request'))
+            <a class="btn" href="{{ route('password.request') }}">
+                {{ __('Forgot your password?') }}
+            </a>
+        @endif
         </div>
         <div class="footer">
-            <p>&copy; {{ date('Y') }} Our Application. All rights reserved.</p>
-            <p>If you have any questions, feel free to <a href="">contact us</a>.</p>
+            <p>&copy; {{ date('Y') }} Aplikasi Kami. Seluruh hak cipta dilindungi.</p>
+            <p>Jika Anda memiliki pertanyaan, jangan ragu untuk <a href="#">menghubungi kami</a>.</p>
         </div>
     </div>
 </body>
 </html>
+
 
 
 <!-- konfigurasi tampilan untuk welcome user yang register melalui registrasi manual-->
