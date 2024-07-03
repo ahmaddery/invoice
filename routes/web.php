@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\StoreController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -67,4 +68,32 @@ Route::middleware('admin')->name('admin.')->group(function () {
     Route::delete('categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
     Route::put('categories/{category}/restore', [CategoryController::class, 'restore'])->name('categories.restore');
     Route::delete('categories/{category}/permanent-delete', [CategoryController::class, 'permanentDelete'])->name('categories.permanent-delete');
+});
+
+Route::middleware('admin')->name('admin.')->group(function () {
+    
+    // Route untuk menampilkan semua produk
+    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+
+    // Route untuk menampilkan form untuk membuat produk baru
+    Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
+
+    // Route untuk menyimpan produk baru
+    Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+
+    // Route untuk menampilkan detail produk
+    Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
+
+    // Route untuk menampilkan form untuk mengedit produk
+    Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
+
+    // Route untuk menyimpan perubahan pada produk yang diedit
+    Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
+
+    // Route untuk menghapus produk
+    Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+
+    // Route untuk merestore produk yang sudah dihapus secara soft delete
+    Route::post('/products/{id}/restore', [ProductController::class, 'restore'])->name('products.restore');
+
 });
