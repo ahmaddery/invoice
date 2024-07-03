@@ -5,6 +5,7 @@ use App\Http\Controllers\GoogleControllerController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\StoreController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -41,4 +42,16 @@ Route::middleware('admin')->group(function () {
     Route::put('users/{id}/restore', [UserController::class, 'restore'])->name('admin.users.restore');
     Route::delete('admin/users/{id}/permanently-delete', 'App\Http\Controllers\Admin\UserController@destroyPermanent')
     ->name('admin.users.permanently-delete');
+});
+
+
+Route::middleware('admin')->name('admin.')->group(function () {
+    Route::get('/stores', [StoreController::class, 'index'])->name('stores');
+    Route::get('/stores/create', [StoreController::class, 'create'])->name('stores.create');
+    Route::post('/stores', [StoreController::class, 'store'])->name('stores.store');
+    Route::get('/stores/{id}/edit', [StoreController::class, 'edit'])->name('stores.edit');
+    Route::put('/stores/{id}', [StoreController::class, 'update'])->name('stores.update');
+    Route::get('/stores/{id}/soft-delete', [StoreController::class, 'softDelete'])->name('stores.soft-delete');
+    Route::delete('/stores/{id}/delete', [StoreController::class, 'delete'])->name('stores.delete');
+    Route::get('/stores/{id}/restore', [StoreController::class, 'restore'])->name('stores.restore');
 });
