@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\StoreController;
+use App\Http\Controllers\Admin\CategoryController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -54,4 +55,16 @@ Route::middleware('admin')->name('admin.')->group(function () {
     Route::get('/stores/{id}/soft-delete', [StoreController::class, 'softDelete'])->name('stores.soft-delete');
     Route::delete('/stores/{id}/delete', [StoreController::class, 'delete'])->name('stores.delete');
     Route::get('/stores/{id}/restore', [StoreController::class, 'restore'])->name('stores.restore');
+});
+
+Route::middleware('admin')->name('admin.')->group(function () {
+    Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');
+    Route::get('categories/create', [CategoryController::class, 'create'])->name('categories.create');
+    Route::post('categories', [CategoryController::class, 'store'])->name('categories.store');
+    Route::get('categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+    Route::put('categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
+    Route::patch('categories/{category}', [CategoryController::class, 'update']);
+    Route::delete('categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+    Route::put('categories/{category}/restore', [CategoryController::class, 'restore'])->name('categories.restore');
+    Route::delete('categories/{category}/permanent-delete', [CategoryController::class, 'permanentDelete'])->name('categories.permanent-delete');
 });

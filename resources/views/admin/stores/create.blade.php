@@ -54,7 +54,6 @@
                                     @enderror
                                 </div>
                             </div>
-                            <!-- Hapus bagian ini yang terkait dengan api_url -->
                         </div>
                         <button type="submit" class="btn btn-primary">Simpan Data</button>
                     </form>
