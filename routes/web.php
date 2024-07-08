@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\StoreController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\TokoController;
+use App\Http\Controllers\ProdukController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -71,29 +73,53 @@ Route::middleware('admin')->name('admin.')->group(function () {
 });
 
 Route::middleware('admin')->name('admin.')->group(function () {
-    
-    // Route untuk menampilkan semua produk
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-
-    // Route untuk menampilkan form untuk membuat produk baru
     Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
-
-    // Route untuk menyimpan produk baru
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
-
-    // Route untuk menampilkan detail produk
     Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
-
-    // Route untuk menampilkan form untuk mengedit produk
     Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
-
-    // Route untuk menyimpan perubahan pada produk yang diedit
     Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
-
-    // Route untuk menghapus produk
     Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
-
-    // Route untuk merestore produk yang sudah dihapus secara soft delete
     Route::post('/products/{id}/restore', [ProductController::class, 'restore'])->name('products.restore');
+
+
+
+});
+
+
+
+Route::middleware('auth')->group(function () {
+    // Route untuk menampilkan semua toko milik user
+    Route::get('/toko', [TokoController::class, 'index'])->name('toko.index');
+
+    // Route untuk menampilkan form membuat toko baru
+    Route::get('/toko/create', [TokoController::class, 'create'])->name('toko.create');
+
+    // Route untuk menyimpan toko baru
+    Route::post('/toko', [TokoController::class, 'store'])->name('toko.store');
+
+    // Route untuk menampilkan detail toko
+    Route::get('/toko/{id}', [TokoController::class, 'show'])->name('toko.show');
+
+    // Route untuk menampilkan form edit toko
+    Route::get('/toko/{id}/edit', [TokoController::class, 'edit'])->name('toko.edit');
+
+    // Route untuk menyimpan perubahan pada toko yang sudah diedit
+    Route::put('/toko/{id}', [TokoController::class, 'update'])->name('toko.update');
+
+    // Route untuk menghapus toko
+    Route::delete('/toko/{id}', [TokoController::class, 'destroy'])->name('toko.destroy');
+});
+
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');
+    Route::get('/produk/create', [ProdukController::class, 'create'])->name('produk.create');
+    Route::post('/produk', [ProdukController::class, 'store'])->name('produk.store');
+    Route::get('/produk/{id}', [ProdukController::class, 'show'])->name('produk.show');
+    Route::get('/produk/{id}/edit', [ProdukController::class, 'edit'])->name('produk.edit');
+    Route::put('/produk/{id}', [ProdukController::class, 'update'])->name('produk.update');
+    Route::delete('/produk/{id}', [ProdukController::class, 'destroy'])->name('produk.destroy');
 
 });

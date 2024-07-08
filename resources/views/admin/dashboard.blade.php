@@ -1,5 +1,7 @@
 
 @include('admin.layouts.sidebar')
+
+
 <h1>halaman admin </h1>
   <!-- Authentication -->
   <form method="POST" action="{{ route('logout') }}">
