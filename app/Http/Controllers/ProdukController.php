@@ -3,18 +3,47 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Category;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
+use DataTables;
+
 
 class ProdukController extends Controller
 {
     // Menampilkan semua produk
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::where('user_id', Auth::id())->get();
-        return view('produk.index', compact('products'));
+        $perPage = $request->input('per_page', 10); // Jumlah default per halaman: 10
+    
+        $query = Product::where('user_id', Auth::id());
+    
+        // Filter berdasarkan pencarian
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->input('search') . '%');
+        }
+    
+        // Filter berdasarkan kategori
+        if ($request->filled('category')) {
+            $query->whereHas('category', function($query) use ($request) {
+                $query->where('id', $request->input('category'));
+            });
+        }
+    
+        // Sorting
+        $query->orderBy('name', 'asc');
+    
+        // Ambil kategori untuk dropdown filter
+        $categories = Category::all(); // Ubah sesuai dengan model dan kolom yang sesuai dengan struktur aplikasi Anda
+    
+        // Ambil produk dengan pagination
+        $products = $query->paginate($perPage);
+    
+        return view('produk.index', compact('products', 'categories'));
     }
+    
+    
+    
 
     // Menampilkan form untuk membuat produk baru
     // Menampilkan form untuk membuat produk baru
@@ -54,7 +83,8 @@ class ProdukController extends Controller
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-        return view('produk.edit', compact('product'));
+        $categories = Category::all(); // Fetch all categories
+        return view('produk.edit', compact('product', 'categories'));
     }
 
     // Mengupdate produk di dalam database
