@@ -89,25 +89,12 @@ Route::middleware('admin')->name('admin.')->group(function () {
 
 
 Route::middleware('auth')->group(function () {
-    // Route untuk menampilkan semua toko milik user
     Route::get('/toko', [TokoController::class, 'index'])->name('toko.index');
-
-    // Route untuk menampilkan form membuat toko baru
     Route::get('/toko/create', [TokoController::class, 'create'])->name('toko.create');
-
-    // Route untuk menyimpan toko baru
     Route::post('/toko', [TokoController::class, 'store'])->name('toko.store');
-
-    // Route untuk menampilkan detail toko
     Route::get('/toko/{id}', [TokoController::class, 'show'])->name('toko.show');
-
-    // Route untuk menampilkan form edit toko
     Route::get('/toko/{id}/edit', [TokoController::class, 'edit'])->name('toko.edit');
-
-    // Route untuk menyimpan perubahan pada toko yang sudah diedit
     Route::put('/toko/{id}', [TokoController::class, 'update'])->name('toko.update');
-
-    // Route untuk menghapus toko
     Route::delete('/toko/{id}', [TokoController::class, 'destroy'])->name('toko.destroy');
 });
 

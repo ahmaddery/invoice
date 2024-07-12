@@ -1,8 +1,25 @@
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Daftar Toko</div>
+@include('layouts.sidebar')
+@include('admin.layouts.toastr')
+
+
+<div class="container-fluid py-4">
+    <div class="row justify-content-end">
+        <div class="col-lg-10">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <h6 class="mb-0">Data Toko</h6>
+                        </div>
+                        <div class="col-lg-6 text-lg-end">
+                            @if($stores->isEmpty())
+                                <a href="{{ route('toko.create') }}" class="btn btn-primary">
+                                    <i class="fas fa-plus-circle me-2"></i> Tambah toko
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
 
                 <div class="card-body">
                     @if(session('success'))

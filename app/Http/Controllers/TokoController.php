@@ -39,24 +39,31 @@ class TokoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-{
-    // Validasi data yang dikirim oleh user
-    $request->validate([
-        'name' => 'required',
-        'address' => 'required',
-    ]);
-
-    // Simpan data ke database
-    $store = new Store([
-        'user_id' => Auth::id(),
-        'name' => $request->get('name'),
-        'address' => $request->get('address'),
-        'api_url' => '', // Atur ke nilai default kosong atau sesuai kebutuhan
-    ]);
-    $store->save();
-
-    return redirect('/toko')->with('success', 'Toko baru telah berhasil dibuat!');
-}
+    {
+        // Cek apakah user sudah memiliki toko
+        $existingStore = Store::where('user_id', Auth::id())->first();
+        if ($existingStore) {
+            return redirect('/toko')->with('error', 'Anda hanya dapat membuat satu toko.');
+        }
+    
+        // Validasi data yang dikirim oleh user
+        $request->validate([
+            'name' => 'required',
+            'address' => 'required',
+        ]);
+    
+        // Simpan data ke database
+        $store = new Store([
+            'user_id' => Auth::id(),
+            'name' => $request->get('name'),
+            'address' => $request->get('address'),
+            'api_url' => '', // Atur ke nilai default kosong atau sesuai kebutuhan
+        ]);
+        $store->save();
+    
+        return redirect('/toko')->with('success', 'Toko baru telah berhasil dibuat!');
+    }
+    
 
     /**
      * Display the specified resource.
